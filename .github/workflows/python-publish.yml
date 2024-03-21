@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/project/sidu/
+      url: https://pypi.org/project/pytorch-sidu/
     permissions:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
     
