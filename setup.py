@@ -6,7 +6,7 @@ with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "README.md")
 
 setuptools.setup(
     name="pytorch-sidu",
-    version="0.0.6",
+    version="0.0.0",
     author="Marco Parola",
     author_email="marcoparola96@gmail.com",
     description="SIDU: SImilarity Difference and Uniqueness method for explainable AI",
