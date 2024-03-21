@@ -19,6 +19,12 @@ setuptools.setup(
         "torchvision",
         "numpy",
     ],
+    setuptools_git_versioning={
+        "enabled": True,
+    },
+    setup_requires=[
+        "setuptools-git-versioning<2"
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
