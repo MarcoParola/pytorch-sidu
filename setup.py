@@ -16,6 +16,8 @@ setuptools.setup(
     packages=["pytorch-sidu"],
     install_requires=[
         "torch",
+        "torchvision",
+        "numpy",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
