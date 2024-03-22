@@ -5,12 +5,18 @@ SIDU: SImilarity Difference and Uniqueness method for explainable AI
 - Simple interface for loading pretrained models by specifying one of the following [string name](https://pytorch.org/vision/stable/models.html#table-of-all-available-classification-weights)
 - Clear interface for generating saliency maps
 
+Some examples made with VGG19 on [Caltech-101 dataset](https://paperswithcode.com/dataset/caltech-101):
+
+[img1-1.pdf](https://github.com/MarcoParola/pytorch-sidu/files/14725698/img1-1.pdf)
+[img3-1.pdf](https://github.com/MarcoParola/pytorch-sidu/files/14725700/img3-1.pdf)
+[img7-1.pdf](https://github.com/MarcoParola/pytorch-sidu/files/14725704/img7-1.pdf)
+
+
 ## Installation
 
 ```
 pip install pytorch-sidu
 ```
-
 
 ## Usage
 
@@ -39,28 +45,28 @@ import torchvision
 from matplotlib import pyplot as plt
 import pytorch_sidu as sidu
 
-if __name__ == '__main__':
-    transform = torchvision.transforms.Compose([torchvision.transforms.Resize((256, 256)), torchvision.transforms.ToTensor()])
-    data_loader = torch.utils.data.DataLoader(
-        torchvision.datasets.CIFAR10(root='./data', download=True, transform=transform), batch_size=2)
 
-    weights = "ResNet18_Weights.IMAGENET1K_V1"
-    backbone = sidu.load_torch_backbone(weights)
+transform = torchvision.transforms.Compose([torchvision.transforms.Resize((256, 256)), torchvision.transforms.ToTensor()])
+data_loader = torch.utils.data.DataLoader(
+    torchvision.datasets.CIFAR10(root='./data', download=True, transform=transform), batch_size=2)
 
-    for image, _ in data_loader:
-        saliency_maps = sidu.sidu(backbone, image)
-        image, saliency_maps = image.cpu(), saliency_maps.cpu()
+weights = "ResNet18_Weights.IMAGENET1K_V1"
+backbone = sidu.load_torch_backbone(weights)
 
-        for j in range(len(image)):
-            plt.figure(figsize=(5, 2.5))
-            plt.subplot(1, 2, 1)
-            plt.imshow(image[j].permute(1, 2, 0))
-            plt.axis('off')
-            plt.subplot(1, 2, 2)
-            plt.imshow(image[j].permute(1, 2, 0))
-            plt.imshow(saliency_maps[j].squeeze().detach().numpy(), cmap='jet', alpha=0.4)
-            plt.axis('off')
-            plt.show()
+for image, _ in data_loader:
+    saliency_maps = sidu.sidu(backbone, image)
+    image, saliency_maps = image.cpu(), saliency_maps.cpu()
+
+    for j in range(len(image)):
+        plt.figure(figsize=(5, 2.5))
+        plt.subplot(1, 2, 1)
+        plt.imshow(image[j].permute(1, 2, 0))
+        plt.axis('off')
+        plt.subplot(1, 2, 2)
+        plt.imshow(image[j].permute(1, 2, 0))
+        plt.imshow(saliency_maps[j].squeeze().detach().numpy(), cmap='jet', alpha=0.4)
+        plt.axis('off')
+        plt.show()
 ```
 
 ## License
