@@ -1,1 +1,0 @@
-from sidu import sidu, load_torch_backbone
