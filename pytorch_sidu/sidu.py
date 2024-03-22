@@ -4,8 +4,8 @@ import numpy as np
 
 
 
-def kernel(d, kernel_width=0.25):
-    r""" Kernel function for the similarity differences
+def kernel(vector, kernel_width=0.25) -> torch.Tensor:
+    r""" Kernel function for computing the weights of the differences
     Args:
         d: torch.Tensor
             The difference tensor
@@ -15,11 +15,19 @@ def kernel(d, kernel_width=0.25):
         weights: torch.Tensor
             The weights
     """
-    #return torch.exp(-(d ** 2) / kernel_width ** 2)
-    return torch.sqrt(torch.exp(-(d ** 2) / kernel_width ** 2))
+    return torch.sqrt(torch.exp(-(vector ** 2) / kernel_width ** 2))
 
-def normalize(array):
-      return (array - array.min()) / (array.max() - array.min() + 1e-13)
+
+def normalize(array) -> torch.Tensor:
+    r""" Normalize the array
+    Args:
+        array: torch.Tensor
+            The input array
+    Returns:
+        normalized_array: torch.Tensor
+            The normalized array
+    """
+    return (array - array.min()) / (array.max() - array.min() + 1e-13)
 
 
 
@@ -144,28 +152,17 @@ def sidu(model, image):
 
         # compute saliency maps by averaging the masks weighted by the SIDU
         # each mask of masks (batch, num_masks, w, h) must be multiplied by the SIDU (batch, num_masks)
-        # each tensor of w x h must be multiplied by the corresponding SIDU value
         saliency_maps = masks * sidu.unsqueeze(2).unsqueeze(3)
-
-        saliency_maps_weighted_diff_only = masks * weighted_diff.unsqueeze(2).unsqueeze(3)
-        saliency_maps_uniqness_only = masks * uniqness.unsqueeze(2).unsqueeze(3)
 
         # reduce the saliency maps to a single map by summing over the masks dimension
         saliency_maps = saliency_maps.sum(dim=1)
         saliency_maps /= num_masks
-        
-        saliency_maps_weighted_diff_only = saliency_maps_weighted_diff_only.sum(dim=1)
-        saliency_maps_weighted_diff_only /= num_masks
 
-        saliency_maps_uniqness_only = saliency_maps_uniqness_only.sum(dim=1)
-        saliency_maps_uniqness_only /= num_masks
-
-        return saliency_maps, saliency_maps_weighted_diff_only, saliency_maps_uniqness_only
+        return saliency_maps
 
 
 
-
-def load_torch_backbone(model_name, layer=-4):
+def load_torch_backbone(model_name, layer=-2):
     r""" Load a backbone model from torchvision
     Args:
         model_name: str
