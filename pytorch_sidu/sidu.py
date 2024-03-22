@@ -119,6 +119,11 @@ def sidu(model, image):
             The generated masks
     """
 
+    # check device
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
+    image = image.to(device)
+
     model.eval()
     with torch.no_grad():
         orig_feature_map = model(image)
