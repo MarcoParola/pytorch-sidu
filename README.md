@@ -7,9 +7,9 @@ SIDU: SImilarity Difference and Uniqueness method for explainable AI
 
 Some examples made with VGG19 on [Caltech-101 dataset](https://paperswithcode.com/dataset/caltech-101):
 
-[img1-1.pdf](https://github.com/MarcoParola/pytorch-sidu/files/14725698/img1-1.pdf)
-[img3-1.pdf](https://github.com/MarcoParola/pytorch-sidu/files/14725700/img3-1.pdf)
-[img7-1.pdf](https://github.com/MarcoParola/pytorch-sidu/files/14725704/img7-1.pdf)
+![img1](https://github.com/MarcoParola/pytorch-sidu/assets/32603898/e2bc0085-11c8-4fd7-975e-72e49ff7ee77)
+![img7](https://github.com/MarcoParola/pytorch-sidu/assets/32603898/860492cf-fc24-4f40-ad65-6d42a6a539a8)
+![img9](https://github.com/MarcoParola/pytorch-sidu/assets/32603898/83c7c206-5927-438d-93af-aa3e94914461)
 
 
 ## Installation
