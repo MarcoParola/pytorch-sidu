@@ -13,7 +13,8 @@ setuptools.setup(
     url="https://github.com/MarcoParola/pytorch-sidu",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=["pytorch_sidu"],
+    #packages=["pytorch_sidu"],
+    packages=setuptools.find_packages(),
     install_requires=[
         "torch",
         "torchvision",
