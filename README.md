@@ -1,5 +1,5 @@
 # **pytorch-sidu**
-SIDU: SImilarity Difference and Uniqueness method for explainable AI
+SIDU: SImilarity Difference and Uniqueness method for explainable AI from the [original paper](https://arxiv.org/pdf/2006.03122.pdf)
 
 - Pytorch implementation of the SIDU method. 
 - Simple interface for loading pretrained models by specifying one of the following [string name](https://pytorch.org/vision/stable/models.html#table-of-all-available-classification-weights)
