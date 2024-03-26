@@ -4,7 +4,7 @@ import numpy as np
 
 
 
-def kernel(vector, kernel_width=0.25) -> torch.Tensor:
+def kernel(vector: torch.Tensor, kernel_width: float = 0.1) -> torch.Tensor:
     r""" Kernel function for computing the weights of the differences
     Args:
         d: torch.Tensor
@@ -18,7 +18,7 @@ def kernel(vector, kernel_width=0.25) -> torch.Tensor:
     return torch.sqrt(torch.exp(-(vector ** 2) / kernel_width ** 2))
 
 
-def normalize(array) -> torch.Tensor:
+def normalize(array: torch.Tensor) -> torch.Tensor:
     r""" Normalize the array
     Args:
         array: torch.Tensor
@@ -31,7 +31,7 @@ def normalize(array) -> torch.Tensor:
 
 
 
-def uniqness_measure(masked_feature_map):
+def uniqness_measure(masked_feature_map: torch.Tensor) -> torch.Tensor:
     r""" Compute the uniqueness measure
     Args:
         masked_feature_map: torch.Tensor
@@ -56,10 +56,10 @@ def uniqness_measure(masked_feature_map):
 
 
 
-def similarity_differences(original_predictions, masked_predictions):
+def similarity_differences(orig_predictions: torch.Tensor, masked_predictions: torch.Tensor):
     r""" Compute the similarity differences
     Args:
-        original_predictions: torch.Tensor
+        orig_predictions: torch.Tensor
             The original predictions
         masked_predictions: torch.Tensor
             The masked predictions
@@ -69,7 +69,7 @@ def similarity_differences(original_predictions, masked_predictions):
         diff: torch.Tensor
             The differences
     """
-    diff = abs(masked_predictions - original_predictions)
+    diff = abs(masked_predictions - orig_predictions)
     # compute the average of the differences, from (batch, num_masks, num_features, w, h) -> (batch, num_masks, w, h)
     diff = diff.mean(dim=2)
     weighted_diff = kernel(diff)
@@ -79,7 +79,7 @@ def similarity_differences(original_predictions, masked_predictions):
 
 
 
-def generate_masks(img_size, feature_map, s=8):
+def generate_masks(img_size: tuple, feature_map: torch.Tensor, s: int = 8) -> torch.Tensor:
     r""" Generate masks from the feature map
     Args:
         img_size: tuple
@@ -108,7 +108,7 @@ def generate_masks(img_size, feature_map, s=8):
 
 
 
-def sidu(model, image):
+def sidu(model: torch.nn.Module, image: torch.Tensor) -> torch.Tensor:
     r""" SIDU SImilarity Difference and Uniqueness method
     Args:
         model: torch.nn.Module
@@ -165,22 +165,3 @@ def sidu(model, image):
 
         return saliency_maps
 
-
-
-def load_torch_backbone(model_name, layer=-2):
-    r""" Load a backbone model from torchvision
-    Args:
-        model_name: str
-            The name of the model
-    Returns:
-        backbone: torch.nn.Sequential
-            The backbone model
-    """
-    name, version = model_name.split(".")
-    name = name.split("_Weights")[0].lower()
-    model = getattr(torchvision.models, name)(weights=model_name)
-    model.eval()
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model.to(device)    
-    backbone = torch.nn.Sequential(*list(model.children())[:layer])
-    return backbone
