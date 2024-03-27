@@ -4,7 +4,7 @@ import os
 with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "README.md"), "r") as fh:
     long_description = fh.read()
 
-with open("requirements.txt", "r") as f:
+with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),"requirements.txt"), "r") as f:
     requirements = f.readlines()
 
 setuptools.setup(
