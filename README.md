@@ -68,3 +68,8 @@ for image, _ in data_loader:
         plt.axis('off')
         plt.show()
 ```
+
+## upcoming features:
+- integration of xai metrics
+- make methods work on both single images and dataloaders
+- adding `device` flag to sidu function to allow device selection
