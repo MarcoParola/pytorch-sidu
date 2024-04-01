@@ -17,7 +17,7 @@ setuptools.setup(
     url="https://github.com/MarcoParola/pytorch-sidu",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=["pytorch_sidu"],
+    packages=["pytorch_sidu", "pytorch_sidu.utils"],
     install_requires=requirements,
     setuptools_git_versioning={
         "enabled": True,
