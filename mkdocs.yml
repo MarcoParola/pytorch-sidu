@@ -1,0 +1,14 @@
+site_name: pytorch-sidu
+site_url: https://pytorch-sidu.github.io
+site_description: PyTorch implementation of SImilarity Difference and Uniqueness (SIDU) method for explainable AI 
+
+theme:
+  name: terminal
+
+  
+plugins:
+  - mkdocstrings
+
+nav:
+  - Home: index.md
+  - reference.md

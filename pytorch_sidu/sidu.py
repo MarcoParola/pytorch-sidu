@@ -1,3 +1,18 @@
+# pytorch_sidu/sidu.py
+
+r""" SIDU SImilarity Difference and Uniqueness method
+
+The SIDU method is a method for explaining the predictions of a model by computing the similarity differences and the uniqueness of the masks generated from the feature map of the model. The method is based on the paper **SIDU: Similarity Difference and Uniqueness Method for Explainable AI** by Satya M. Muddamsetty, Mohammad N. S. Jahromi, and Thomas B. Moeslund.
+
+The module contains the following functions:
+    - kernel: Kernel function for computing the weights of the differences
+    - normalize: Normalize the array
+    - uniqness_measure: Compute the uniqueness measure
+    - similarity_differences: Compute the similarity differences
+    - generate_masks: Generate masks from the feature map
+    - sidu: SIDU SImilarity Difference and Uniqueness method
+"""
+
 import torch
 import torchvision
 import numpy as np
@@ -5,24 +20,30 @@ import numpy as np
 
 
 def kernel(vector: torch.Tensor, kernel_width: float = 0.1) -> torch.Tensor:
-    r""" Kernel function for computing the weights of the differences
+    """
+    Kernel function for computing the weights of the differences.
+
     Args:
-        d: torch.Tensor
-            The difference tensor
-        kernel_width: float
-            The kernel width
+        vector (torch.Tensor): 
+            The difference tensor.
+        kernel_width (float, optional): 
+            The kernel width. Defaults to 0.1.
+
     Returns:
-        weights: torch.Tensor
-            The weights
+        torch.Tensor: 
+            The weights.
     """
     return torch.sqrt(torch.exp(-(vector ** 2) / kernel_width ** 2))
 
 
 def normalize(array: torch.Tensor) -> torch.Tensor:
-    r""" Normalize the array
+    """
+    Normalize the array
+
     Args:
         array: torch.Tensor
             The input array
+
     Returns:
         normalized_array: torch.Tensor
             The normalized array
@@ -33,9 +54,11 @@ def normalize(array: torch.Tensor) -> torch.Tensor:
 
 def uniqness_measure(masked_feature_map: torch.Tensor) -> torch.Tensor:
     r""" Compute the uniqueness measure
+
     Args:
         masked_feature_map: torch.Tensor
             The masked feature map
+
     Returns:
         uniqueness: torch.Tensor
             The uniqueness measure
@@ -58,11 +81,13 @@ def uniqness_measure(masked_feature_map: torch.Tensor) -> torch.Tensor:
 
 def similarity_differences(orig_predictions: torch.Tensor, masked_predictions: torch.Tensor):
     r""" Compute the similarity differences
+
     Args:
         orig_predictions: torch.Tensor
             The original predictions
         masked_predictions: torch.Tensor
             The masked predictions
+
     Returns:
          : torch.Tensor
             The weights
@@ -81,6 +106,7 @@ def similarity_differences(orig_predictions: torch.Tensor, masked_predictions: t
 
 def generate_masks(img_size: tuple, feature_map: torch.Tensor, s: int = 8) -> torch.Tensor:
     r""" Generate masks from the feature map
+
     Args:
         img_size: tuple
             The size of the input image
@@ -88,6 +114,7 @@ def generate_masks(img_size: tuple, feature_map: torch.Tensor, s: int = 8) -> to
             The feature map from the model
         s: int
             The scale factor
+
     Returns:
         masks: torch.Tensor
             The generated masks
@@ -110,6 +137,7 @@ def generate_masks(img_size: tuple, feature_map: torch.Tensor, s: int = 8) -> to
 
 def sidu(model: torch.nn.Module, image: torch.Tensor) -> torch.Tensor:
     r""" SIDU SImilarity Difference and Uniqueness method
+    
     Args:
         model: torch.nn.Module
             The model to be explained
@@ -118,6 +146,7 @@ def sidu(model: torch.nn.Module, image: torch.Tensor) -> torch.Tensor:
         masks: torch.Tensor
             The generated masks
     """
+    return 1
 
     # check device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
