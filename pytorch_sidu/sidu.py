@@ -37,7 +37,7 @@ def kernel(vector: torch.Tensor, kernel_width: float = 0.1) -> torch.Tensor:
 
 
 def normalize(array: torch.Tensor) -> torch.Tensor:
-    """
+    r"""
     Normalize the array
 
     Args:
@@ -146,7 +146,6 @@ def sidu(model: torch.nn.Module, image: torch.Tensor) -> torch.Tensor:
         masks: torch.Tensor
             The generated masks
     """
-    return 1
 
     # check device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
