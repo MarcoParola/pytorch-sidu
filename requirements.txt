@@ -1,3 +1,6 @@
 torch
 torchvision
 numpy
+mkdocs
+mkdocs-terminal
+mkdocstrings[python]
