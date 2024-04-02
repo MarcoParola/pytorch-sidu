@@ -31,14 +31,11 @@ jobs:
     - name: Run tests
       run: python -m pytest tests/
     - name: Deploy docs
-      uses: mhausenblas/mkdocs-deploy-gh-pages@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-          CUSTOM_DOMAIN: pytorch-sidu.github.io
-          CONFIG_FILE: mkdocs.yml
-          EXTRA_PACKAGES: build-base
-          # GITHUB_DOMAIN: github.myenterprise.com
-          REQUIREMENTS: requirements.txt
+      uses: Tiryoh/actions-mkdocs@v0
+      with:
+        mkdocs_version: 'latest' 
+        requirements: 'requirements.txt' 
+        configfile: 'mkdocs.yml'
     - name: Publish package distributions to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
