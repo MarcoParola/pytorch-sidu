@@ -1,6 +1,5 @@
 # **pytorch-sidu**
 
-![example workflow](https://github.com/MarcoParola/pytorch-sidu/actions/workflows/python-publish.yml/badge.svg)
 [![size](https://img.shields.io/github/languages/code-size/MarcoParola/pytorch-sidu)]()
 
 SIDU: SImilarity Difference and Uniqueness method for explainable AI from the [original paper](https://arxiv.org/pdf/2006.03122.pdf)
