@@ -16,7 +16,7 @@ The module contains the following functions:
 import torch
 import torchvision
 import numpy as np
-
+from torchvision.models.feature_extraction import create_feature_extractor
 
 
 def kernel(vector: torch.Tensor, kernel_width: float = 0.1) -> torch.Tensor:
@@ -134,8 +134,7 @@ def generate_masks(img_size: tuple, feature_map: torch.Tensor, s: int = 8) -> to
     return masks
 
 
-
-def sidu(model: torch.nn.Module, image: torch.Tensor) -> torch.Tensor:
+def sidu(model: torch.nn.Module, layer_name: str, image: torch.Tensor, device: torch.device = torch.device("cpu")) -> torch.Tensor:
     r""" SIDU SImilarity Difference and Uniqueness method
     
     Args:
@@ -143,18 +142,25 @@ def sidu(model: torch.nn.Module, image: torch.Tensor) -> torch.Tensor:
             The model to be explained
         image: torch.Tensor
             The input image to be explained
-        masks: torch.Tensor
-            The generated masks
-    """
+        layer_name: str
+            The layer name of the model to be explained
+            It must be contained in named_modules() of the model
+        device: torch.device, optional
+            The device to use. Defaults to torch.device("cpu")
 
-    # check device
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    Returns:
+        saliency_maps: torch.Tensor
+            The saliency maps
+
+    """
+    model.eval()
     model.to(device)
     image = image.to(device)
-
-    model.eval()
+    return_nodes = {layer_name: 'target_layer'}
+    model = create_feature_extractor(model, return_nodes=return_nodes)
+    
     with torch.no_grad():
-        orig_feature_map = model(image)
+        orig_feature_map = model(image)['target_layer']
         input_size = image.shape[2:]
         masks = generate_masks(input_size, orig_feature_map, 16)
         batch = image.shape[0]
@@ -167,7 +173,7 @@ def sidu(model: torch.nn.Module, image: torch.Tensor) -> torch.Tensor:
 
         masked_feature_map = []
         for i in range(num_masks):
-            masked_feature_map.append(model(masked_images[:, i, :, :, :]))
+            masked_feature_map.append(model(masked_images[:, i, :, :, :])['target_layer'])
         masked_feature_map = torch.stack(masked_feature_map, dim=1) # TODO speed up this part
         
         orig_feature_map = orig_feature_map.unsqueeze(1).repeat(1, num_masks, 1, 1, 1)
@@ -192,4 +198,3 @@ def sidu(model: torch.nn.Module, image: torch.Tensor) -> torch.Tensor:
         saliency_maps /= num_masks
 
         return saliency_maps
-
