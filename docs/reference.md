@@ -1,2 +1,0 @@
-
-::: pytorch_sidu.sidu
