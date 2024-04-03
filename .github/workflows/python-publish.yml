@@ -30,12 +30,6 @@ jobs:
       run: python -m build
     - name: Run tests
       run: python -m pytest tests/ -v
-    - name: Deploy docs
-      uses: Tiryoh/actions-mkdocs@v0
-      with:
-        mkdocs_version: 'latest' 
-        requirements: 'requirements.txt' 
-        configfile: 'mkdocs.yml'
     - name: Publish package distributions to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
