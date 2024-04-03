@@ -29,16 +29,17 @@ Load models from the pretrainde ones available in pytorch
 ```py
 import pytorch_sidu as sidu
 
-weights = "ResNet18_Weights.IMAGENET1K_V1"
-backbone = sidu.load_torch_backbone(weights)
+model_name = 'ResNet34_Weights.IMAGENET1K_V1'
+model = load_torch_model_by_string(model_name)
 ```
 
 After instantianting your model, generate saliency maps from Dataloader
 
 ```py
 data_loader = <your dataloader>
+target_layer = 'layer4.2.conv2'
 image, _ = next(iter(data_loader))
-saliency_maps = sidu.sidu(backbone, image)
+saliency_maps = sidu.sidu(model, target_layer, image)
 ```
 
 ### A complete example on CIFAR-10
@@ -50,15 +51,16 @@ from matplotlib import pyplot as plt
 import pytorch_sidu as sidu
 
 
-transform = torchvision.transforms.Compose([torchvision.transforms.Resize((256, 256)), torchvision.transforms.ToTensor()])
+transform = torchvision.transforms.Compose([torchvision.transforms.Resize((224, 224)), torchvision.transforms.ToTensor()])
 data_loader = torch.utils.data.DataLoader(
     torchvision.datasets.CIFAR10(root='./data', download=True, transform=transform), batch_size=2)
 
-weights = "ResNet18_Weights.IMAGENET1K_V1"
-backbone = sidu.load_torch_backbone(weights)
+target_layer = 'layer4.2.conv2'
+model_name = 'ResNet34_Weights.IMAGENET1K_V1'
+model = load_torch_model_by_string(model_name)
 
 for image, _ in data_loader:
-    saliency_maps = sidu.sidu(backbone, image)
+    saliency_maps = sidu.sidu(model, target_layer, image)
     image, saliency_maps = image.cpu(), saliency_maps.cpu()
 
     for j in range(len(image)):
