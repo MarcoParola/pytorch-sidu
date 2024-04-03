@@ -29,7 +29,7 @@ jobs:
     - name: Build package
       run: python -m build
     - name: Run tests
-      run: python -m pytest tests/
+      run: python -m pytest tests/ -v
     - name: Deploy docs
       uses: Tiryoh/actions-mkdocs@v0
       with:
