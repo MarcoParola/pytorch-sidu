@@ -56,7 +56,7 @@ data_loader = torch.utils.data.DataLoader(
 
 target_layer = 'layer4.2.conv2'
 model_name = 'ResNet34_Weights.IMAGENET1K_V1'
-model = load_torch_model_by_string(model_name)
+model = sidu.load_torch_model_by_string(model_name)
 
 for image, _ in data_loader:
     saliency_maps = sidu.sidu(model, target_layer, image)
