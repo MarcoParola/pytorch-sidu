@@ -26,6 +26,7 @@ pip install pytorch-sidu
 Load models from the pretrainde ones available in pytorch
 
 ```py
+from pytorch_sidu import sidu
 from pytorch_sidu.utils.utils import load_torch_model_by_string
 
 model_name = 'ResNet34_Weights.IMAGENET1K_V1'
@@ -38,7 +39,7 @@ After instantianting your model, generate saliency maps from Dataloader
 data_loader = <your dataloader>
 target_layer = 'layer4.2.conv2'
 image, _ = next(iter(data_loader))
-saliency_maps = sidu.sidu(model, target_layer, image)
+saliency_maps = sidu(model, target_layer, image)
 ```
 
 ### A complete example on CIFAR-10
