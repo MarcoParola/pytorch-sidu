@@ -26,7 +26,7 @@ pip install pytorch-sidu
 Load models from the pretrainde ones available in pytorch
 
 ```py
-import pytorch_sidu as sidu
+from pytorch_sidu.utils.utils import load_torch_model_by_string
 
 model_name = 'ResNet34_Weights.IMAGENET1K_V1'
 model = load_torch_model_by_string(model_name)
@@ -47,7 +47,8 @@ saliency_maps = sidu.sidu(model, target_layer, image)
 import torch
 import torchvision
 from matplotlib import pyplot as plt
-import pytorch_sidu as sidu
+from pytorch_sidu import sidu
+from pytorch_sidu.utils.utils import load_torch_model_by_string
 
 
 transform = torchvision.transforms.Compose([torchvision.transforms.Resize((224, 224)), torchvision.transforms.ToTensor()])
@@ -56,10 +57,10 @@ data_loader = torch.utils.data.DataLoader(
 
 target_layer = 'layer4.2.conv2'
 model_name = 'ResNet34_Weights.IMAGENET1K_V1'
-model = sidu.load_torch_model_by_string(model_name)
+model = load_torch_model_by_string(model_name)
 
 for image, _ in data_loader:
-    saliency_maps = sidu.sidu(model, target_layer, image)
+    saliency_maps = sidu(model, target_layer, image)
     image, saliency_maps = image.cpu(), saliency_maps.cpu()
 
     for j in range(len(image)):
